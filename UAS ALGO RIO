@@ -1,0 +1,76 @@
+import csv
+
+def baca_csv(nama_file):
+    data = []
+    with open(nama_file, newline='', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        next(reader)
+        for row in reader:
+            data.append(row)
+    return data
+
+def tampilkan_data(data):
+    jumlah = int(input("Masukkan jumlah data: "))
+    for i in range(min(jumlah, len(data))):
+        print(data[i])
+
+def cari_negara(data):
+    negara = input("Masukkan negara: ")
+    for row in data:
+        if row[0].lower() == negara.lower():
+            print(row)
+
+def rata_suhu(data):
+    total = 0
+    count = 0
+    for row in data:
+        try:
+            total += float(row[5])
+            count += 1
+        except:
+            pass
+    print("Rata-rata suhu:", total / count)
+
+def suhu_tertinggi(data):
+    max_suhu = -999
+    lokasi = ""
+    for row in data:
+        try:
+            suhu = float(row[5])
+            if suhu > max_suhu:
+                max_suhu = suhu
+                lokasi = row[1]
+        except:
+            pass
+    print("Suhu tertinggi:", lokasi, max_suhu)
+
+def main():
+    nama = input("Masukkan nama user: ")
+    print("Selamat datang,", nama)
+
+    data = baca_csv("GlobalWeatherRepository.csv")
+
+    while True:
+        print("\n1. Tampilkan Data")
+        print("2. Cari Negara")
+        print("3. Rata-rata Suhu")
+        print("4. Suhu Tertinggi")
+        print("5. Keluar")
+
+        pilih = input("Pilih menu: ")
+
+        if pilih == "1":
+            tampilkan_data(data)
+        elif pilih == "2":
+            cari_negara(data)
+        elif pilih == "3":
+            rata_suhu(data)
+        elif pilih == "4":
+            suhu_tertinggi(data)
+        elif pilih == "5":
+            print("Program selesai")
+            break
+        else:
+            print("Pilihan salah!")
+
+main()
